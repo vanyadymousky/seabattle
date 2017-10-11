@@ -1,11 +1,8 @@
-import React from 'react';
-import { render } from 'react-dom';
-
-function Test() {
-  return <div>Hi there!</div>;
-}
+import React from 'react'
+import { render } from 'react-dom'
+import { Battlefield } from './components/battlefield'
 
 render(
-  <Test />,
+  <Battlefield />,
   document.getElementById('root')
-);
+)

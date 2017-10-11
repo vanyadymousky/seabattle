@@ -1,0 +1,18 @@
+.cell {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-position: center;
+  background-size: cover;
+
+  &.shot {
+    background-image: url('/images/bullethole.png');
+  }
+
+  &.bleeding {
+    background-image: url('/images/directhit.png');
+  }
+
+  &.dead {
+    background-color: rebeccapurple;
+  }
+}
