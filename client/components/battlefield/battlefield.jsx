@@ -1,6 +1,7 @@
 import React from 'react'
 import './battlefield.scss'
-import { Cell } from './cell/cell'
+import { Cell } from '../cell/cell'
+import '../../helpers/socket'
 
 export function Battlefield() {
   return (
