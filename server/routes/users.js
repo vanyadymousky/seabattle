@@ -2,8 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 router.post('/save-name', function (req, res, next) {
-  req.session.userData.name = req.body.username;
-  console.log(req.session.userData);
+  req.session.username = req.body.username;
   res.send('OK');
 });
 
