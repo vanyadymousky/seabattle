@@ -4,7 +4,7 @@ const myHeaders = new Headers({
   'Encoding': 'UTF8',
 });
 
-export const saveName = (username) => fetch('//localhost:3000/users/save-name', {
+export const saveName = (username) => fetch('//localhost:3002/users/save-name', {
   body: JSON.stringify({
     username,
   }),

@@ -4,23 +4,30 @@
  * Module dependencies.
  */
 
-var app = require('../server/app');
-var debug = require('debug')('seabattle:server');
-var http = require('http');
+const app = require('../server/app');
+const debug = require('debug')('seabattle:server');
+const ioService = require('../server/services/socket/abstract');
+const sharedsession = require('express-socket.io-session');
+const http = require('http');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT || '3002');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
-var io = require('socket.io')(server);
+const server = http.createServer(app);
+const io = ioService.create(server);
+io.use(sharedsession(app.session));
+io.connected$.subscribe(socket => {
+  debug('!!!: ', socket.handshake.session.username);
+});
+
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -29,10 +36,6 @@ var io = require('socket.io')(server);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
-
-io.on('connection', function (socket) {
-  console.log('connectd!');
-});
 
 /**
  * Normalize a port into a number, string, or false.
@@ -63,7 +66,7 @@ function onError(error) {
     throw error;
   }
 
-  var bind = typeof port === 'string'
+  const bind = typeof port === 'string'
     ? 'Pipe ' + port
     : 'Port ' + port;
 
@@ -87,8 +90,8 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
+  const addr = server.address();
+  const bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);

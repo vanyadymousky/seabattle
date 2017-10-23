@@ -3,13 +3,23 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-const session = require('express-session')
-const RedisStore = require('connect-redis')(session)
+const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+const index = require('./routes/index');
+const users = require('./routes/users');
 
-var app = express();
+const app = express();
+const appSession = session({
+  secret: 'keyboard cat',
+  store: new RedisStore({
+    host: 'localhost',
+    port: 6379,
+  }),
+  resave: false,
+  saveUninitialized: true
+});
+app.session = appSession;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,15 +31,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({
-  secret: 'keyboard cat',
-  store: new RedisStore({
-    host: 'localhost',
-    port: 6379,
-  }),
-  resave: false,
-  saveUninitialized: true
-}))
+app.use(appSession);
 
 app.use('/', index);
 app.use('/users', users);
