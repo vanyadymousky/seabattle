@@ -23,7 +23,6 @@ router.get('/', (req, res, next) => {
 
 router.get(LOBBY_ROUTE, (req, res, next) => {
   if (!req.session.username) {
-    debug('redirected to login');
     res.redirect('/');
   } else {
     basicRoute(req, res, next);

@@ -1,10 +1,6 @@
 const Rxjs = require('rxjs');
 const debug = require('debug')('seabattle:socket');
 
-function createUsersConnectedObservable() {
-
-}
-
 /**
  * New client connected to socket server
  *
@@ -12,20 +8,6 @@ function createUsersConnectedObservable() {
  */
 function onConnection(socket) {
   console.log('User connected: ', socket.handshake.session.username);
-  socket.on('connected', function (messageFromClient) {
-    debug(`socket connected. socket id: ${this.id}, message from client: ${messageFromClient || 'empty message'}`);
-    // For each client separate disconnect to store complete information about socket
-  });
-  socket.on('disconnect', onDisconnect.bind(socket));
-}
-
-/**
- * Client disconnected from socket server
- *
- * @param {string} reason - disconnect reason
- */
-function onDisconnect(reason) {
-  debug(`socket disconnected. reason: ${reason}, username: ${this.handshake.session.username}`);
 }
 
 module.exports = {
@@ -44,13 +26,6 @@ module.exports = {
       io = io.of(namespace);
     }
 
-    // const onConnect$ = Observable.create(observer => {
-    //   io.on('connection', (socket) => {
-    //     onConnection(socket);
-    //   });
-    // });
-
-    // ;
     const connected$ = Rxjs.Observable.create(observer => {
       io.on('connection', socket => {
         observer.next(socket);
@@ -59,5 +34,5 @@ module.exports = {
     connected$.subscribe(onConnection);
     io.connected$ = connected$;
     return io;
-  }
+  },
 };

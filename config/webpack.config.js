@@ -14,8 +14,9 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx$/,
         loader: 'babel-loader',
+        test: /\.js(x)?$/,
+        exclude: /(node_modules)/,
       },
       {
         test: /\.scss$/,
@@ -33,7 +34,7 @@ module.exports = {
     modules: [
       'node_modules',
     ],
-    extensions: ['.js', '.json', '.jsx', '.css'],
+    extensions: ['.js', '.jsx', '.json', '.css'],
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({

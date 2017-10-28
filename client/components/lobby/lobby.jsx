@@ -1,13 +1,29 @@
 import React, { Component } from 'react';
+import { state } from '../../state/index';
 
 export class Lobby extends Component {
+  state = {
+    users: [],
+  }
+
+  componentDidMount() {
+    this.unsubscribe =
+      state.subscribe(state => {
+        this.setState({
+          users: state.users,
+        });
+      });
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
 
   render() {
-    const playersList = [];
     return <main>
-      Hi there!!!
+      Looking for game?
       <ul>
-        {playersList.map(({ name }) => <li>{name}</li>)}
+        {this.state.users.map((name, index) => <li key={index}>{name}</li>)}
       </ul>
     </main>;
   }

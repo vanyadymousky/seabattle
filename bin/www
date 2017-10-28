@@ -25,9 +25,8 @@ const server = http.createServer(app);
 const io = ioService.create(server);
 io.use(sharedsession(app.session));
 io.connected$.subscribe(socket => {
-  debug('!!!: ', socket.handshake.session.username);
+  const userName = socket.handshake.session.username;
 });
-
 
 /**
  * Listen on provided port, on all network interfaces.

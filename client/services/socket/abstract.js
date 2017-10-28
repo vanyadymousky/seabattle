@@ -4,6 +4,4 @@ class AbstractSocket {
   constructor() {
     this.socket = io('ws://localhost:3002/')
   }
-
-
 }
